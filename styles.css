@@ -137,6 +137,28 @@ body {
     color: var(--text-muted);
 }
 
+.sidebar-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+    background-color: #fff;
+    margin-left: -25px;
+}
+.w-100 {
+    width: 100% !important;
+    background: var(--background);
+    border-radius:10px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+    display: block;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-lg);
+}
+.w-100:hover{
+    background-color: #e9ebef;
+}
 .nav-menu {
     list-style: none;
 }
@@ -1117,3 +1139,4 @@ body {
     outline: 2px solid var(--primary-color);
     outline-offset: 2px;
 }
+
