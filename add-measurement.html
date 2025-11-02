@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Add Measurement - Tailor Pro</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .page-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #1a1a1a;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .back-button:hover {
+            background: #e5e5e5;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+
+        .page-title p {
+            font-size: 15px;
+            color: #737373;
+        }
+
+        .add-form-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid #e5e5e5;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 24px;
+        }
+
+        .form-group-add {
+            margin-bottom: 20px;
+        }
+
+        .form-group-add label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .form-group-add label .required {
+            color: #ef4444;
+        }
+
+        .form-select-add,
+        .form-input-add {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            font-size: 15px;
+            background: #fafafa;
+            color: #1a1a1a;
+            transition: all 0.2s;
+        }
+
+        .form-select-add:focus,
+        .form-input-add:focus {
+            outline: none;
+            border-color: #1a1a1a;
+            background: white;
+        }
+
+        .tabs-add {
+            margin-top: 24px;
+        }
+
+        .tab-list-add {
+            display: flex;
+            gap: 8px;
+            border-bottom: 1px solid #e5e5e5;
+            margin-bottom: 24px;
+        }
+
+        .tab-button-add {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 2px solid transparent;
+            font-size: 15px;
+            font-weight: 500;
+            color: #737373;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-button-add.active {
+            color: #1a1a1a;
+            border-bottom-color: #1a1a1a;
+        }
+
+        .tab-button-add:hover {
+            color: #1a1a1a;
+        }
+
+        .tab-content-add {
+            display: none;
+        }
+
+        .tab-content-add.active {
+            display: block;
+        }
+
+        .measurement-grid-add {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .form-actions-add {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e5e5;
+        }
+
+        .btn-add {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: none;
+        }
+
+        .btn-primary-add {
+            background: #1a1a1a;
+            color: white;
+        }
+
+        .btn-primary-add:hover {
+            background: #000000;
+        }
+
+        .btn-secondary-add {
+            background: white;
+            color: #1a1a1a;
+            border: 1px solid #e5e5e5;
+        }
+
+        .btn-secondary-add:hover {
+            background: #f5f5f5;
+        }
+
+        @media (max-width: 768px) {
+            .measurement-grid-add {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .add-form-card {
+                padding: 20px;
+            }
+
+            .measurement-grid-add {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <header class="mobile-header">
+            <button class="menu-toggle" id="menuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="mobile-title">
+                <i class="fas fa-cut"></i>
+                Tailor Pro
+            </h1>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title">
+                    <i class="fas fa-cut"></i>
+                    Tailor Pro
+                </h1>
+                <p class="sidebar-subtitle">Professional Tailoring System</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="clients.html" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Clients</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="measurements.html" class="nav-link active">
+                        <i class="fas fa-ruler"></i>
+                        <span>Measurements</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="payments.html" class="nav-link">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="orders.html" class="nav-link">
+                        <i class="fas fa-scissors"></i>
+                        <span>Orders</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="settings.html" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p class="text-muted small">Signed in as</p>
+                    <p class="mb-0" id="userName">Demo User</p>
+                </div>
+                <button class="btn-logout" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <button class="back-button" onclick="window.location.href='measurements.html'">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to Measurements
+                </button>
+                <div class="page-title">
+                    <h1>Add Measurement</h1>
+                    <p>Record client measurements</p>
+                </div>
+            </div>
+
+            <div class="add-form-card">
+                <h2 class="section-title">Select Client</h2>
+                <form id="addMeasurementForm">
+                    <div class="form-group-add">
+                        <label>Client <span class="required">*</span></label>
+                        <select class="form-select-add" id="clientSelect" required>
+                            <option value="">Choose a client...</option>
+                            <option value="1">John Smith</option>
+                            <option value="2">Michael Johnson</option>
+                            <option value="3">David Wilson</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+            <div class="add-form-card" id="measurementSection" style="display: none;">
+                <h2 class="section-title">Measurements</h2>
+
+                <div class="tabs-add">
+                    <div class="tab-list-add">
+                        <button type="button" class="tab-button-add active" data-tab="shirt">Shirt Measurements</button>
+                        <button type="button" class="tab-button-add" data-tab="pant">Pant Measurements</button>
+                    </div>
+
+                    <div id="shirt-tab" class="tab-content-add active">
+                        <div class="measurement-grid-add">
+                            <div class="form-group-add">
+                                <label>Chest (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="shirtChest">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Waist (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="shirtWaist">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Shoulder (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="shirtShoulder">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Sleeves (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="shirtSleeves">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Collar (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="shirtCollar">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Length (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="shirtLength">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="pant-tab" class="tab-content-add">
+                        <div class="measurement-grid-add">
+                            <div class="form-group-add">
+                                <label>Waist (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="pantWaist">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Hip (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="pantHip">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Thigh (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="pantThigh">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Inseam (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="pantInseam">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Outseam (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="pantOutseam">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Rise (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="pantRise">
+                            </div>
+                            <div class="form-group-add">
+                                <label>Cuff (inches)</label>
+                                <input type="number" step="0.5" class="form-input-add" placeholder="0.0" id="pantCuff">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions-add">
+                    <button type="button" class="btn-add btn-primary-add" onclick="saveMeasurement()">
+                        <i class="fas fa-save"></i>
+                        Save Measurements
+                    </button>
+                    <button type="button" class="btn-add btn-secondary-add" onclick="window.location.href='measurements.html'">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="logout-modal-overlay">
+        <div class="logout-modal">
+            <div class="logout-modal-header">
+                <div class="logout-modal-icon">
+                    <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <h3 class="logout-modal-title">Logout Confirmation</h3>
+                <p class="logout-modal-message">Are you sure you want to logout?</p>
+            </div>
+            <div class="logout-modal-actions">
+                <button class="logout-modal-btn logout-modal-btn-cancel" onclick="cancelLogout()">Cancel</button>
+                <button class="logout-modal-btn logout-modal-btn-confirm" onclick="confirmLogout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Show measurement section when client is selected
+        document.getElementById('clientSelect').addEventListener('change', function() {
+            const measurementSection = document.getElementById('measurementSection');
+            if (this.value) {
+                measurementSection.style.display = 'block';
+            } else {
+                measurementSection.style.display = 'none';
+            }
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab-button-add').forEach(button => {
+            button.addEventListener('click', function() {
+                const tabName = this.getAttribute('data-tab');
+                
+                // Remove active class from all tabs
+                document.querySelectorAll('.tab-button-add').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.tab-content-add').forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+                document.getElementById(tabName + '-tab').classList.add('active');
+            });
+        });
+
+        // Save measurement
+        function saveMeasurement() {
+            const clientId = document.getElementById('clientSelect').value;
+            
+            if (!clientId) {
+                alert('Please select a client');
+                return;
+            }
+
+            const measurementData = {
+                clientId: clientId,
+                shirt: {
+                    chest: document.getElementById('shirtChest').value,
+                    waist: document.getElementById('shirtWaist').value,
+                    shoulder: document.getElementById('shirtShoulder').value,
+                    sleeves: document.getElementById('shirtSleeves').value,
+                    collar: document.getElementById('shirtCollar').value,
+                    length: document.getElementById('shirtLength').value
+                },
+                pant: {
+                    waist: document.getElementById('pantWaist').value,
+                    hip: document.getElementById('pantHip').value,
+                    thigh: document.getElementById('pantThigh').value,
+                    inseam: document.getElementById('pantInseam').value,
+                    outseam: document.getElementById('pantOutseam').value,
+                    rise: document.getElementById('pantRise').value,
+                    cuff: document.getElementById('pantCuff').value
+                },
+                createdAt: new Date().toISOString()
+            };
+
+            console.log('New measurement:', measurementData);
+            alert('Measurement saved successfully!');
+            window.location.href = 'measurements.html';
+        }
+    </script>
+</body>
+</html>

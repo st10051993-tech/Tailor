@@ -4,17 +4,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
     const navLinks = document.querySelectorAll('.nav-link');
     const contentSections = document.querySelectorAll('.content-section');
+    
+    // Create mobile menu overlay
+    let mobileOverlay = document.querySelector('.mobile-menu-overlay');
+    if (!mobileOverlay) {
+        mobileOverlay = document.createElement('div');
+        mobileOverlay.className = 'mobile-menu-overlay';
+        document.body.appendChild(mobileOverlay);
+    }
 
     // Mobile menu toggle
     menuToggle?.addEventListener('click', function() {
         sidebar.classList.toggle('open');
+        mobileOverlay.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking overlay
+    mobileOverlay.addEventListener('click', function() {
+        sidebar.classList.remove('open');
+        mobileOverlay.classList.remove('active');
     });
 
     // Close sidebar when clicking outside on mobile
     document.addEventListener('click', function(e) {
         if (window.innerWidth <= 768) {
-            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+            if (!sidebar.contains(e.target) && !menuToggle.contains(e.target) && !mobileOverlay.contains(e.target)) {
                 sidebar.classList.remove('open');
+                mobileOverlay.classList.remove('active');
             }
         }
     });
@@ -40,9 +56,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 targetElement.classList.add('active');
             }
             
-            // Close mobile menu
+            // Close mobile menu and overlay
             if (window.innerWidth <= 768) {
                 sidebar.classList.remove('open');
+                mobileOverlay.classList.remove('active');
             }
         });
     });
@@ -55,6 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize search
     initializeSearch();
+    
+    // Initialize view toggle
+    initializeViewToggle();
 });
 
 // Measurement Form Functions
@@ -161,7 +181,7 @@ function initializeSearch() {
                 const clientEmail = card.querySelector('.contact-item span').textContent.toLowerCase();
                 
                 if (clientName.includes(searchTerm) || clientEmail.includes(searchTerm)) {
-                    card.style.display = 'block';
+                    card.style.display = '';
                     visibleCount++;
                 } else {
                     card.style.display = 'none';
@@ -173,6 +193,45 @@ function initializeSearch() {
             if (countBadge) {
                 countBadge.textContent = `${visibleCount} clients`;
             }
+        });
+    }
+}
+
+// View Toggle Functions
+function initializeViewToggle() {
+    const viewButtons = document.querySelectorAll('.view-btn');
+    const clientsGrid = document.getElementById('clientsGrid');
+    
+    if (viewButtons.length > 0 && clientsGrid) {
+        // Load saved view preference
+        const savedView = localStorage.getItem('clientsView') || 'grid';
+        if (savedView === 'list') {
+            clientsGrid.classList.add('list-view');
+            viewButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === 'list');
+            });
+        }
+        
+        viewButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const view = this.dataset.view;
+                
+                // Remove active class from all buttons
+                viewButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Toggle view
+                if (view === 'list') {
+                    clientsGrid.classList.add('list-view');
+                } else {
+                    clientsGrid.classList.remove('list-view');
+                }
+                
+                // Save preference
+                localStorage.setItem('clientsView', view);
+            });
         });
     }
 }
